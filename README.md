@@ -1,6 +1,6 @@
 # Truss 💻📲
 
-#   <img src="https://user-images.githubusercontent.com/83045484/154683812-306f2e87-48b8-4be2-af64-13a8714bc871.png" width="400" height="250" alt="logo" style="text-align:center"/></div><br/>
+#   <img src="https://user-images.githubusercontent.com/83045484/154683812-306f2e87-48b8-4be2-af64-13a8714bc871.png" width="400" height="250" alt="logo" style="align:center"/></div><br/>
 
 ### Desenvolvendo uma aplicação mobile que realize um _CRUD_ de _TODO's_.
 
