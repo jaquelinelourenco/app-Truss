@@ -1,21 +1,62 @@
 import Image from "../components/Imagem/imag"
 import React, {useState, useEffect, useRef} from "react"
 import { ButtoRadio } from "./styled"
+import FileList from "./Imagem/imag"
+
+const styles = {
+    container: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      paddingTop: 50,
+    },
+    preview: {
+      marginTop: 50,
+      display: "flex",
+      flexDirection: "column",
+    },
+    image: {
+        maxWidth: "50%",
+        maxHeight: 50,
+        borderRadius: "2px"
+    },
+    result: {
+        display:'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center'
+    }
+  };
+
 
 const TodoForm = (props) => {
     const [input, setInput] = useState(props.edit ? props.edit.value : "")
     const inputRef = useRef(null)
     const [selectedValue, setSelectedValue] = useState({
         isAgree: false,
-        priority: " A ",
+        priority: " ",
 
     })
     const [image, setImage] = useState('')
     const [loading, setLoading] = useState(false)
+    const [selectedImage, setSelectedImage] = useState();
 
     useEffect(() => {
         inputRef.current.focus()
     })
+    // TO IMAGE CHANGE
+    const imageChange = (e) => {
+        if (e.target.files && e.target.files.length > 0) {
+          setSelectedImage(e.target.files[0]);
+        }
+      };
+
+      // TO REMOVE IMAGE
+      const removeSelectedImage = () => {
+        setSelectedImage();
+      };
 
     const handleInput = e => {
         setInput(e.target.value)
@@ -29,6 +70,17 @@ const TodoForm = (props) => {
             [name] : value
         })
     }
+    const displayEmojiName = e => alert(e.target.id);
+        const emojis = [
+        {
+            emoji: '✅',
+            name: "Concluded"
+        },
+        {
+            emoji: '📌',
+            name: "Attached"
+        }
+    ]
 
     const uploadImage = async e => {
       const files = e.target.files
@@ -51,14 +103,12 @@ const TodoForm = (props) => {
         e.preventDefault()
         props.onSubmit({
             id: Math.floor(Math.random() * 10000),
-            text: `${input} - ${selectedValue.priority} - ${Image.file} `,
+        text: `${input} - ${selectedValue.priority} `,
             input: document.querySelector("selectedValue"),
         })
         setInput('')
         setSelectedValue('')
     }
-// aceitei
-
 
     return (
         <div>
@@ -73,14 +123,12 @@ const TodoForm = (props) => {
                     />
                     {input.length > 0 && (
                         <div>
-                            <label for="file" >Upload file:</label>
+                            <label >Upload file:</label>
                             <input
-                                type="file"
-                                name="file"
-                                placeholder="Upload an image"
-                                onChange={uploadImage}
+                            accept="image/*"
+                            type="file"
+                            onChange={selectedImage}
                             />
-                            <img src={Image} style={{ width: '400px' }} />
                         </div>
                     )}
                     <ButtoRadio>
@@ -93,7 +141,7 @@ const TodoForm = (props) => {
                                     name="priority"
                                     value="A"
                                     onChange={handleChange}
-                                    checked={selectedValue.priority == "A"}
+                                    checked/* ={selectedValue.priority == "A"} */
                                 />
                             </label>
                         </div>
@@ -105,7 +153,7 @@ const TodoForm = (props) => {
                                     name="priority"
                                     value="B"
                                     onChange={handleChange}
-                                    checked={selectedValue.priority == "B"}
+                                    /*checked/*={selectedValue.priority == "B"} */
                                     />
                             </label>
                         </div>
@@ -117,17 +165,40 @@ const TodoForm = (props) => {
                                     name="priority"
                                     value="C"
                                     onChange={handleChange}
-                                    checked={selectedValue.priority == "C"}
+                                    /*checked/* ={selectedValue.priority == "C"} */
                                     />
                             </label>
                         </div>
                     </ButtoRadio>
                     <br/>
-                    <br/>
                     <button onClick={handleSubmit}>
                         To Add
                     </button>
-                    <h2>List Task: {input} - {selectedValue.priority} {Image} </h2>
+                    <h2  style={styles.result}>List Task: {input} - {selectedValue.priority} </h2>
+{/*                     <div>
+                             <div style={styles.preview}>
+                                <img
+                                src={URL.createObjectURL(selectedImage)}
+                                style={styles.image}
+                                alt="Thumb"
+                                />
+                            </div>
+                            )}
+                        </div> */}
+
+                         {/* <p>
+                                {
+                                emojis.map(emoji => (
+                                    <p key={emoji.name}>
+                                    <button
+                                        onClick={displayEmojiName}
+                                    >
+                                        <span role="img" aria-label={emoji.name} id={emoji.name}>{emoji.emoji}</span>
+                                    </button>
+                                    </p>
+                                ))
+                                }
+                            </p> */}
                 </>
             </form>
         </div>
