@@ -16,4 +16,4 @@ Campos da TODO:
 * Campo Data de Inclusão - (preenchimento automatico data)
 * Campo Imagem
 
-![banner_truss](https://user-images.githubusercontent.com/83045484/154683791-231eed14-1432-40db-affa-d2376cc0103f.png)
+<p align="center">![banner_truss](https://user-images.githubusercontent.com/83045484/154683791-231eed14-1432-40db-affa-d2376cc0103f.png)</p>
