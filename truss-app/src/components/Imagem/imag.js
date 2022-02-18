@@ -1,44 +1,59 @@
-import React, { useState } from 'react'
+import React from "react";
+import {CircularProgressbar} from "react-circular-progressbar";
+import { MdCheckCircle, MdError, MdLink } from "react-icons/md";
 
-const Image = () => {
-  const [image, setImage] = useState('')
-  const [loading, setLoading] = useState(false)
+import { Container, FileInfo, Preview } from "../styled";
 
-  const uploadImage = async e => {
-    const files = e.target.files
-    const data = new FormData()
-    data.append('file', files[0])
-    data.append('upload_preset', 'darwin')
-    setLoading(true)
-    const res = await fetch(
-      '	https://api.cloudinary.com/v1_1/dihifeicm/image/upload',
-      {
-        method: 'POST',
-        body: data
-      }
-    )
-    const file = await res.json()
-
-    setImage(file.secure_url)
-    setLoading(false)
-  }
+const FileList = ({ files, onDelete }) => {
 
   return (
-    <div className="App">
-      <h1>Upload Image</h1>
-      <input
-        type="file"
-        name="file"
-        placeholder="Upload an image"
-        onChange={uploadImage}
-      />
-      {loading ? (
-        <h3>Loading...</h3>
-      ) : (
-        <img src={image} style={{ width: '300px' }} />
-      )}
-    </div>
-  )
-}
+    <Container>
+      {files.map(uploadedFile => (
+        <li key={uploadedFile.id}>
+          <FileInfo>
+            <Preview src={uploadedFile.preview} />
+            <div>
+              <strong>{uploadedFile.name}</strong>
+              <span>
+                {uploadedFile.readableSize}{" "}
+                {!!uploadedFile.url && (
+                  <button onClick={() => onDelete(uploadedFile.id)}>
+                    Excluir
+                  </button>
+                )}
+              </span>
+            </div>
+          </FileInfo>
 
-export default Image
+          <div>
+            {!uploadedFile.uploaded &&
+              !uploadedFile.error && (
+                <CircularProgressbar
+                  styles={{
+                    root: { width: 24 },
+                    path: { stroke: "#7159c1" }
+                  }}
+                  strokeWidth={10}
+                  percentage={uploadedFile.progress}
+                />
+              )}
+
+            {uploadedFile.url && (
+              <a
+                href={uploadedFile.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MdLink style={{ marginRight: 8 }} size={24} color="#222" />
+              </a>
+            )}
+
+            {uploadedFile.uploaded && <MdCheckCircle size={24} color="#78e5d5" />}
+            {uploadedFile.error && <MdError size={24} color="#e57878" />}
+          </div>
+        </li>
+      ))}
+    </Container>
+);
+}
+export default FileList;
