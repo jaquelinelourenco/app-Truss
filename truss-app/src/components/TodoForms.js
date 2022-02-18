@@ -80,7 +80,7 @@ const TodoForm = (props) => {
                                 placeholder="Upload an image"
                                 onChange={uploadImage}
                             />
-                            <img src={Image} style={{ width: '300px' }} />
+                            <img src={Image} style={{ width: '400px' }} />
                         </div>
                     )}
                     <ButtoRadio>
