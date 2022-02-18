@@ -1,6 +1,6 @@
 # Truss 💻📲
 
-###Desenvolvendo uma aplicação mobile que realize um _CRUD_ de _TODO's_.
+### Desenvolvendo uma aplicação mobile que realize um _CRUD_ de _TODO's_.
 
 Campos da TODO:
 
