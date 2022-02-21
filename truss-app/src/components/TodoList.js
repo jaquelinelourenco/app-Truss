@@ -11,13 +11,9 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const TodoList = () => {
     const [todos, setTodos] = useState([])
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(null)
-    const onChange = (datas) => {
-        const [inicio, fim] = datas
-        setStartDate (inicio)
-        setEndDate(fim)
-    }
+    const [dateRange, setDateRange] = useState([null, null])
+    const [startDate, endDate] = dateRange;
+
 
     const navigate = useNavigate()
 
@@ -80,14 +76,15 @@ const TodoList = () => {
             <TodoContainer>
                 <img src={TodoImg}/>
                 <h1>Todo List Truss</h1>
-                <h2>`Data Inicio 📌 - Data Final ✅`
+                <h2>Data Inicio 📌 - Data Final ✅
                 <DatePicker
-                    selected={startDate}
-                    onChange={onChange}
+                    selectsRange={ true }
                     startDate={startDate}
                     endDate={endDate}
-                    selectsRange
-                    inline
+                    dateFormat='dd/MM/yyyy'
+                    onChange={(update)=> {
+                        setDateRange(update)
+                    }}
                 />
                 </h2>
                 <div>
