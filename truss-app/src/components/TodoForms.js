@@ -1,8 +1,7 @@
-import Image from "../components/Imagem/imag"
 import React, {useState, useEffect, useRef} from "react"
 import { ButtoRadio } from "./styled"
-import FileList from "./Imagem/imag"
 
+// Just some styles
 const styles = {
     container: {
       display: "flex",
@@ -16,20 +15,15 @@ const styles = {
       display: "flex",
       flexDirection: "column",
     },
-    image: {
-        maxWidth: "50%",
-        maxHeight: 50,
-        borderRadius: "2px"
+    image: { maxWidth: "100%", maxHeight: 320 },
+    delete: {
+      cursor: "pointer",
+      padding: 15,
+      background: "red",
+      color: "white",
+      border: "none",
     },
-    result: {
-        display:'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center'
-    }
   };
-
 
 const TodoForm = (props) => {
     const [input, setInput] = useState(props.edit ? props.edit.value : "")
@@ -41,46 +35,6 @@ const TodoForm = (props) => {
     })
     const [image, setImage] = useState('')
     const [loading, setLoading] = useState(false)
-    const [selectedImage, setSelectedImage] = useState();
-
-    useEffect(() => {
-        inputRef.current.focus()
-    })
-    // TO IMAGE CHANGE
-    const imageChange = (e) => {
-        if (e.target.files && e.target.files.length > 0) {
-          setSelectedImage(e.target.files[0]);
-        }
-      };
-
-      // TO REMOVE IMAGE
-      const removeSelectedImage = () => {
-        setSelectedImage();
-      };
-
-    const handleInput = e => {
-        setInput(e.target.value)
-    }
-    const handleChange = e => {
-        const target = e.target
-        const name = target.name
-        const value = target.type=="input" ? target.checked : target.value
-        setSelectedValue({
-            ...selectedValue,
-            [name] : value
-        })
-    }
-    const displayEmojiName = e => alert(e.target.id);
-        const emojis = [
-        {
-            emoji: '✅',
-            name: "Concluded"
-        },
-        {
-            emoji: '📌',
-            name: "Attached"
-        }
-    ]
 
     const uploadImage = async e => {
       const files = e.target.files
@@ -96,24 +50,55 @@ const TodoForm = (props) => {
         }
       )
       const file = await res.json()
+
       setImage(file.secure_url)
       setLoading(false)
     }
+
+    const handleInput = e => {
+        setInput(e.target.value)
+    }
+    const handleChange = e => {
+        const target = e.target
+        const name = target.name
+        const value = target.type=="input" ? target.checked : target.value
+        setSelectedValue({
+            ...selectedValue,
+            [name] : value
+        })
+    }
+
     const handleSubmit = e => {
         e.preventDefault()
         props.onSubmit({
             id: Math.floor(Math.random() * 10000),
-        text: `${input} - ${selectedValue.priority} `,
+        text: `${input} - ${selectedValue.priority} - ${image}`,
             input: document.querySelector("selectedValue"),
+
         })
+
         setInput('')
         setSelectedValue('')
     }
 
     return (
         <div>
-            <form>
+            <form onSubmit={(e)=>handleSubmit(e)}>
                 <>
+                    <div className="App">
+                        <h2>Upload Image</h2>
+                        <input
+                            type="file"
+                            name="file"
+                            placeholder="Upload an image"
+                            onChange={uploadImage}
+                        />
+                        {loading ? (
+                            <h3>Loading...</h3>
+                        ) : (
+                            <img src={image} style={{ width: '300px' }} />
+                        )}
+                    </div><br/>
                     <input
                         placeholder="Insert task"
                         value={input}
@@ -121,16 +106,6 @@ const TodoForm = (props) => {
                         name="text"
                         ref={inputRef}
                     />
-                    {input.length > 0 && (
-                        <div>
-                            <label >Upload file:</label>
-                            <input
-                            accept="image/*"
-                            type="file"
-                            onChange={selectedImage}
-                            />
-                        </div>
-                    )}
                     <ButtoRadio>
                         <h2>What are your priority:</h2>
                         <div>
@@ -141,7 +116,7 @@ const TodoForm = (props) => {
                                     name="priority"
                                     value="A"
                                     onChange={handleChange}
-                                    checked/* ={selectedValue.priority == "A"} */
+                                    checked={selectedValue.priority == "A"}
                                 />
                             </label>
                         </div>
@@ -153,7 +128,7 @@ const TodoForm = (props) => {
                                     name="priority"
                                     value="B"
                                     onChange={handleChange}
-                                    /*checked/*={selectedValue.priority == "B"} */
+                                    checked={selectedValue.priority == "B"}
                                     />
                             </label>
                         </div>
@@ -165,7 +140,7 @@ const TodoForm = (props) => {
                                     name="priority"
                                     value="C"
                                     onChange={handleChange}
-                                    /*checked/* ={selectedValue.priority == "C"} */
+                                    checked={selectedValue.priority == "C"}
                                     />
                             </label>
                         </div>
@@ -174,7 +149,7 @@ const TodoForm = (props) => {
                     <button onClick={handleSubmit}>
                         To Add
                     </button>
-                    <h2  style={styles.result}>List Task: {input} - {selectedValue.priority} </h2>
+                    <h2  /* style={styles.result} */>List Task: {input} - {selectedValue.priority} </h2>
 {/*                     <div>
                              <div style={styles.preview}>
                                 <img

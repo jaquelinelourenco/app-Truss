@@ -4,6 +4,34 @@ import { MdCheckCircle, MdError, MdLink } from "react-icons/md";
 
 import { Container, FileInfo, Preview } from "../styled";
 
+/* const styles = {
+    container: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      paddingTop: 50,
+    },
+    preview: {
+      marginTop: 50,
+      display: "flex",
+      flexDirection: "column",
+    },
+    image: {
+        maxWidth: "50%",
+        maxHeight: 50,
+        borderRadius: "2px"
+    },
+    result: {
+        display:'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center'
+    }
+}; */
+
+
 const FileList = ({ files, onDelete }) => {
 
   return (
@@ -56,4 +84,6 @@ const FileList = ({ files, onDelete }) => {
     </Container>
 );
 }
+
+
 export default FileList;

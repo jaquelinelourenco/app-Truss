@@ -12,6 +12,12 @@ import "react-datepicker/dist/react-datepicker.css";
 const TodoList = () => {
     const [todos, setTodos] = useState([])
     const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(null)
+    const onChange = (datas) => {
+        const [inicio, fim] = datas
+        setStartDate (inicio)
+        setEndDate(fim)
+    }
 
     const navigate = useNavigate()
 
@@ -49,6 +55,18 @@ const TodoList = () => {
         })
         setTodos(updatedTodos)
     }
+
+    const displayEmojiName = e => alert(e.target.id);
+    const emojis = [
+        {
+            emoji: '✅',
+            name: "Concluded"
+        },
+        {
+            emoji: '📌',
+            name: "Attached"
+        }
+    ]
     return(
         <div>
             <Header>
@@ -62,12 +80,15 @@ const TodoList = () => {
             <TodoContainer>
                 <img src={TodoImg}/>
                 <h1>Todo List Truss</h1>
-                <h2>Data
-                    <DatePicker
-                        wrapperClassName="datePicker" dateFormat="dd/MM/yyyy"
-                        selected={startDate}
-                        onChange={(date) => setStartDate(date)}
-                    />
+                <h2>`Data Inicio 📌 - Data Final ✅`
+                <DatePicker
+                    selected={startDate}
+                    onChange={onChange}
+                    startDate={startDate}
+                    endDate={endDate}
+                    selectsRange
+                    inline
+                />
                 </h2>
                 <div>
                     <h1>What's the Plan for today?</h1>
